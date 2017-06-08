@@ -1,0 +1,120 @@
+<div class="bg-light lter b-b wrapper-md">
+	<h1 class="m-n font-thin h3">编辑</h1>
+</div>
+<div class="wrapper-md" ng-controller="AppEditController">
+	<div class="panel panel-default">
+		<div class="panel-heading font-bold">基本信息</div>
+		<div class="panel-body">
+			<form class="form-horizontal" method="get">
+				<div class="form-group">
+					<label class="col-sm-2 control-label"
+						> 应用名</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="app.name">
+						<span class="help-block m-b-none">例如 梦洁大管家.</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label"> 应用id </label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" ng-model="app.appId">
+						<span class="help-block m-b-none">例如 com.onestong.xx.xx</span>
+					</div>
+				</div>
+
+
+				<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label"
+						>应用描述</label>
+					<div class="col-sm-10">
+						<div lazy-load="textAngular">
+							<div text-angular ng-model="app.description" class="btn-groups"></div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="line line-dashed b-b line-lg pull-in"></div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">应用图标</label>
+					<div class="col-sm-10">
+						<input ui-jq="filestyle" type="file" data-icon="false"
+							data-classButton="btn btn-default" file-model="icon"
+							data-classInput="form-control inline v-middle input-s"> <span
+							class="help-block m-b-none">格式 ：300*200 在下载页面需要展示</span>
+					</div>
+				</div>
+
+
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">关键字</label>
+					<div class="col-sm-6">
+						<input type="text" ng-model="app.keywords" class="form-control"> <span
+							class="help-block m-b-none"> 用来唯一表示一个应用 ，例如 :onestong</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-4 col-sm-offset-2">
+						<button type="submit" ng-click="addApp()" class="btn btn-primary">
+							保存</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	
+	<div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="label bg-danger pull-right m-t-xs">4 left</span>
+          当前版本
+        </div>
+        <table class="table table-striped m-b-none">
+          <thead>
+            <tr>
+              <th>Progress</th>
+              <th>Item</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="progress progress-sm progress-striped active m-t-xs m-b-none">
+                  <div class="progress-bar bg-success" data-toggle="tooltip" data-original-title="80%" style="width: 80%"></div>
+                </div>
+              </td>
+              <td>App prototype design</td>
+            </tr>
+            <tr>                    
+              <td>
+                <div class="progress progress-xs m-t-xs m-b-none">
+                  <div class="progress-bar bg-info" data-toggle="tooltip" data-original-title="40%" style="width: 40%"></div>
+                </div>
+              </td>
+              <td>Design documents</td>
+            </tr>
+            <tr>                    
+              <td>
+                <div class="progress progress-xs m-t-xs m-b-none">
+                  <div class="progress-bar bg-warning" data-toggle="tooltip" data-original-title="20%" style="width: 20%"></div>
+                </div>
+              </td>
+              <td>UI toolkit</td>
+            </tr>
+            <tr>                    
+              <td>
+                <div class="progress progress-xs m-t-xs m-b-none">
+                  <div class="progress-bar bg-danger" data-toggle="tooltip" data-original-title="15%" style="width: 15%"></div>
+                </div>
+              </td>
+              <td>Testing</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+	
+</div>

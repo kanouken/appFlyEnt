@@ -74,8 +74,18 @@ angular.module('app')
                     }
               })
                .state('app.appedit', {
-                  url: '/edit',
-                  templateUrl: 'tpl/app/app_edit.html'
+                  url: '/edit/{id}',
+                  templateUrl: 'tpl/app/app_edit.html',
+                  resolve: {
+                	  deps: ['$ocLazyLoad',
+                             function( $ocLazyLoad ){
+                               return $ocLazyLoad.load('textAngular').then(function()
+                            		   {
+                                   return $ocLazyLoad.load(['js/controllers/app/appController.js']);
+
+                            		   });
+                           }]
+                    }
               })
               
               /*customer*/

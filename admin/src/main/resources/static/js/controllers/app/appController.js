@@ -43,7 +43,7 @@ app.controller(
 										{
 											data : "id",
 											render : function(data, type, full) {
-												return '<a ui-sref="app.fooedit({id:'
+												return '<a ui-sref="app.appedit({id:'
 														+ data
 														+ ' })">'
 														+ data
@@ -103,22 +103,20 @@ app.controller('AppAddController', [ '$scope', '$http', '$state',
 
 app.controller('AppEditController', [ '$scope', '$http', '$state',
 		'$stateParams', function($scope, $http, $state, $stateParams) {
-			$scope.foo = {};
-			$scope.queryFoo = function() {
-				$http.get('foo/' + $stateParams.id, {
-					name : $scope.foo.name
-				}).then(function(response) {
+			$scope.app = {};
+			$scope.queryApp = function() {
+				$http.get('app/' + $stateParams.id).then(function(response) {
 					if (response.status == 200) {
-						$scope.foo = response.data;
+						$scope.app = response.data;
 					}
 				}, function(x) {
 					// alter error
 				});
 			};
 
-			$scope.queryFoo();
+			$scope.queryApp();
 
-			$scope.editFoo = function() {
+			$scope.editApp = function() {
 
 				$http.put('foo', {
 					name : $scope.foo.name,
