@@ -1,0 +1,22 @@
+<div class="bg-light lter b-b wrapper-md">
+	<h1 class="m-n font-thin h3">Foo edit</h1>
+</div>
+<div class="wrapper-md" ng-controller="FooEditController">
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="panel panel-default">
+				<div class="panel-heading font-bold">Basic form</div>
+				<div class="panel-body">
+					<form role="form">
+						<div class="form-group">
+							<label>name</label> <input type="text"
+								class="form-control" ng-model="foo.name" placeholder="Enter email">
+						</div>
+						<button type="submit" ng-click="editFoo()" class="btn btn-sm btn-primary">Save</button>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

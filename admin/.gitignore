@@ -1,0 +1,14 @@
+/target/
+/bin
+/.idea/
+.settings
+.classpath
+.project
+.DS_Store
+target
+log
+*/*.log
+*/*.DS_Store
+.factorypath
+*/.DS_Store
+logs

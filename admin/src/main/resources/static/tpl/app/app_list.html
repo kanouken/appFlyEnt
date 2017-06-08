@@ -1,0 +1,27 @@
+<div class="bg-light lter b-b wrapper-md"  >
+  <h1 class="m-n font-thin h3">应用列表</h1>
+</div>
+<div class="wrapper-md" ng-controller="AppListController">
+ <button class="btn m-b-xs btn-sm btn-primary btn-addon" ng-click="preAdd()"><i class="fa fa-plus"></i>新增</button>
+   <div class="panel panel-default">
+    <div class="panel-heading">
+      应用
+    </div>
+   
+    <div class="table-responsive">
+      <table ui-jq="dataTable" ui-options="dtoption" class="table table-striped m-b-none">
+        <thead>
+          <tr>
+            <th  style="width:40%">应用id</th>
+            <th  style="width:40%">应用名称</th>
+             <th style="width:20%">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  
+</div>
