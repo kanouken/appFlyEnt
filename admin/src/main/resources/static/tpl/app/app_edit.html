@@ -7,11 +7,9 @@
 		<div class="panel-body">
 			<form class="form-horizontal" method="get">
 				<div class="form-group">
-					<label class="col-sm-2 control-label"
-						> 应用名</label>
+					<label class="col-sm-2 control-label"> 应用名</label>
 					<div class="col-sm-10">
 						<input type="text" class="form-control" ng-model="app.name">
-						<span class="help-block m-b-none">例如 梦洁大管家.</span>
 					</div>
 				</div>
 
@@ -19,15 +17,13 @@
 					<label class="col-sm-2 control-label"> 应用id </label>
 					<div class="col-sm-10">
 						<input type="text" class="form-control" ng-model="app.appId">
-						<span class="help-block m-b-none">例如 com.onestong.xx.xx</span>
 					</div>
 				</div>
 
 
 				<div class="line line-dashed b-b line-lg pull-in"></div>
 				<div class="form-group">
-					<label class="col-sm-2 control-label"
-						>应用描述</label>
+					<label class="col-sm-2 control-label">应用描述</label>
 					<div class="col-sm-10">
 						<div lazy-load="textAngular">
 							<div text-angular ng-model="app.description" class="btn-groups"></div>
@@ -37,15 +33,24 @@
 				</div>
 
 				<div class="line line-dashed b-b line-lg pull-in"></div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label"></label>
 
+					<div class="col-sm-5">
+						<img
+							src="https://onestong.com/mengjie/images/thumbnail/100-02.png_100x100.png"
+							class="img-rounded">
+					</div>
+				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">应用图标</label>
-					<div class="col-sm-10">
+					<div class="col-sm-5">
+
 						<input ui-jq="filestyle" type="file" data-icon="false"
 							data-classButton="btn btn-default" file-model="icon"
-							data-classInput="form-control inline v-middle input-s"> <span
-							class="help-block m-b-none">格式 ：300*200 在下载页面需要展示</span>
+							data-classInput="form-control inline v-middle input-s"> 
 					</div>
+
 				</div>
 
 
@@ -53,8 +58,7 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">关键字</label>
 					<div class="col-sm-6">
-						<input type="text" ng-model="app.keywords" class="form-control"> <span
-							class="help-block m-b-none"> 用来唯一表示一个应用 ，例如 :onestong</span>
+						<input type="text" ng-model="app.keywords" class="form-control">
 					</div>
 				</div>
 				<div class="form-group">
@@ -66,55 +70,38 @@
 			</form>
 		</div>
 	</div>
-	
-	
+
+
 	<div class="panel panel-default">
-        <div class="panel-heading">
-          <span class="label bg-danger pull-right m-t-xs">4 left</span>
-          当前版本
-        </div>
-        <table class="table table-striped m-b-none">
-          <thead>
-            <tr>
-              <th>Progress</th>
-              <th>Item</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div class="progress progress-sm progress-striped active m-t-xs m-b-none">
-                  <div class="progress-bar bg-success" data-toggle="tooltip" data-original-title="80%" style="width: 80%"></div>
-                </div>
-              </td>
-              <td>App prototype design</td>
-            </tr>
-            <tr>                    
-              <td>
-                <div class="progress progress-xs m-t-xs m-b-none">
-                  <div class="progress-bar bg-info" data-toggle="tooltip" data-original-title="40%" style="width: 40%"></div>
-                </div>
-              </td>
-              <td>Design documents</td>
-            </tr>
-            <tr>                    
-              <td>
-                <div class="progress progress-xs m-t-xs m-b-none">
-                  <div class="progress-bar bg-warning" data-toggle="tooltip" data-original-title="20%" style="width: 20%"></div>
-                </div>
-              </td>
-              <td>UI toolkit</td>
-            </tr>
-            <tr>                    
-              <td>
-                <div class="progress progress-xs m-t-xs m-b-none">
-                  <div class="progress-bar bg-danger" data-toggle="tooltip" data-original-title="15%" style="width: 15%"></div>
-                </div>
-              </td>
-              <td>Testing</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-	
+		<div class="panel-heading">版本信息</div>
+		<div class="panel-body">
+		<table class="table table-striped m-b-none">
+			<thead>
+				<tr>
+					<th style="width: 30%" class="text-center">设备</th>
+					<th style="width: 30%">版本</th>
+					<th style="width: 60%">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				
+				
+				<tr ng-repeat="cv in app.currentVersions">
+					<td class="text-center">{{cv.plat}}</td>
+					<td>{{cv.version}}</td>
+					<td>
+						<button  ng-click="preUpdateVersion(cv.plat)" class="btn m-b-xs btn-sm btn-warning btn-addon">
+							<i class="fa glyphicon-pencil"></i>编辑
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+		<footer class="panel-footer text-right bg-light lter">
+             <button ng-click="preAddVersion()" class="btn btn-success">发布新应用</button>
+            </footer>
+	</div>
+
 </div>

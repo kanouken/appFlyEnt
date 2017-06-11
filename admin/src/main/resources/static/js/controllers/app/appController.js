@@ -59,7 +59,7 @@ app.controller(
 										{
 											render : function(data, type, full) {
 												
-												return '<button ng-click="deleteFoo('+data.id+')" class="btn m-b-xs w-xs btn-danger">delete</button>';
+												return '<button ng-click="deleteFoo('+data.id+')" class="btn m-b-xs btn-sm btn-warning btn-addon">删除</button>';
 											},
 											targets : [ -1],
 											createdCell : function(nTd, sData,
@@ -108,12 +108,21 @@ app.controller('AppEditController', [ '$scope', '$http', '$state',
 				$http.get('app/' + $stateParams.id).then(function(response) {
 					if (response.status == 200) {
 						$scope.app = response.data;
+						console.log(response.data);
 					}
 				}, function(x) {
 					// alter error
 				});
 			};
 
+			$scope.preAddVersion=function(){
+				$state.go('app.versionadd',{appId:$scope.app.id,appName:$scope.app.name});
+				
+			};
+			
+			$scope.preUpdateVersion = function(plat){
+				$state.go('app.versionupdate',{appId:$scope.app.id,plat:plat});
+			};
 			$scope.queryApp();
 
 			$scope.editApp = function() {

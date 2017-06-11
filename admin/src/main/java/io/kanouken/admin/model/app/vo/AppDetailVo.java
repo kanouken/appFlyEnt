@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class AppDetailVo {
 
+	private String id;
 	private String name;
 	private String description;
 	private String icon;
@@ -17,7 +18,7 @@ public class AppDetailVo {
 
 	private String createTime;
 	private String creator;
-	private CurrentVersionVo currentVersion;
+	private List<CurrentVersionVo> currentVersions;
 
 	private List<HistoryVersionVo> historyVersions;
 
