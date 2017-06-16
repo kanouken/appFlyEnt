@@ -11,6 +11,7 @@ import io.kanouken.admin.model.app.HistoryVersion;
 import io.kanouken.admin.model.appversion.vo.CurrentVersionVo;
 import io.kanouken.admin.model.appversion.vo.HistoryVersionVo;
 import io.kanouken.admin.model.appversion.vo.VersionAddVo;
+import io.kanouken.admin.model.appversion.vo.VersionDetailVo;
 import io.kanouken.admin.model.appversion.vo.VersionUpdateVo;
 
 @Mapper
@@ -25,9 +26,13 @@ public interface AppVersionEntityMapper {
 	CurrentVersion versionUpdateVoToCurrentVersion(VersionUpdateVo versionUpdateVo);
 
 	CurrentVersionVo currentVersionToCurrentVersionVo(CurrentVersion cv);
+	List<CurrentVersionVo> currentVersionToCurrentVersionVo(List<CurrentVersion> cvs);
+
 
 	HistoryVersionVo historyVersionToHistoryVersionVo(HistoryVersion his);
 
 	List<HistoryVersionVo> historyVersionToHistoryVersionVo(List<HistoryVersion> his);
+
+	VersionDetailVo currentVersionToVersionDetailVo(CurrentVersion cv);
 
 }

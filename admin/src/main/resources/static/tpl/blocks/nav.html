@@ -3,7 +3,7 @@
   <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
     <span translate="aside.nav.HEADER">Navigation</span>
   </li>
-  <li>
+  <li ng-show="1===2">
     <a href class="auto">      
       <span class="pull-right text-muted">
         <i class="fa fa-fw fa-angle-right text"></i>
@@ -12,7 +12,7 @@
       <i class="glyphicon glyphicon-stats icon text-primary-dker"></i>
       <span class="font-bold" translate="aside.nav.DASHBOARD">Dashboard</span>
     </a>
-    <ul class="nav nav-sub dk">
+    <ul class="nav nav-sub dk" >
       <li class="nav-sub-header">
         <a href>
           <span translate="aside.nav.DASHBOARD">Dashboard</span>
@@ -31,13 +31,13 @@
       </li>
     </ul>
   </li>
-  <li ui-sref-active="active">
+  <li ui-sref-active="active" ng-show="1===2">
     <a ui-sref="app.calendar">
       <i class="glyphicon glyphicon-calendar icon text-info-dker"></i>
       <span class="font-bold" translate="aside.nav.CALENDAR">Calendar</span>
     </a>
   </li>
-    <li ui-sref-active="active">
+    <li ui-sref-active="active" ng-show="1===2">
     <a ui-sref="app.foo">
       <i class="glyphicon glyphicon-calendar icon text-info-dker"></i>
       <span class="font-bold" translate="aside.nav.foo">foo</span>
@@ -46,21 +46,21 @@
   
    <li ui-sref-active="active">
     <a ui-sref="app.applist">
-      <i class="glyphicon glyphicon-calendar icon text-info-dker"></i>
+      <i class="fa fa-cubes icon text-info-dker"></i>
       <span class="font-bold" translate="aside.nav.app">foo</span>
     </a>
   </li>
   
   
-  <li ui-sref-active="active">
+  <li ui-sref-active="active" ng-show="1===2">
     <a ui-sref="app.mail.list">
       <b class="badge bg-info pull-right">9</b>
       <i class="glyphicon glyphicon-envelope icon text-info-lter"></i>
       <span class="font-bold" translate="aside.nav.EMAIL">Email</span>
     </a>
   </li>
-  <li>
-    <a href class="auto">
+  <li ng-show="1===2">
+    <a href class="auto" >
       <span class="pull-right text-muted">
         <i class="fa fa-fw fa-angle-right text"></i>
         <i class="fa fa-fw fa-angle-down text-active"></i>
@@ -94,9 +94,10 @@
 
   <li class="line dk"></li>
 
-  <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+  <li class="hidden-folded padder m-t m-b-sm text-muted text-xs" ng-show="1===2">
     <span translate="aside.nav.components.COMPONENTS">Components</span>
   </li>
+  <div ng-show="1===2">
   <li>
     <a href class="auto">      
       <span class="pull-right text-muted">
@@ -397,5 +398,6 @@
       <span translate="aside.nav.your_stuff.DOCUMENTS">Documents</span>
     </a>
   </li>
+  </div>
 </ul>
 <!-- / list -->

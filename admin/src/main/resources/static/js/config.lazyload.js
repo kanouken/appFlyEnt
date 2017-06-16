@@ -95,7 +95,7 @@ angular.module('app')
               {
                   name: 'textAngular',
                   files: [
-                      'vendor/modules/textAngular/textAngular-rangy.min.js',
+                    //  'vendor/modules/textAngular/textAngular-rangy.min.js',
                       'vendor/modules/textAngular/textAngular.min.js',
                       'vendor/modules/textAngular/textAngular.umd.js',
                       'vendor/modules/textAngular/textAngularSetup.js',

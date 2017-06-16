@@ -17,7 +17,8 @@ angular.module('app')
       function ($stateProvider,   $urlRouterProvider) {
           
           $urlRouterProvider
-              .otherwise('/app/dashboard-v1');
+//              .otherwise('/app/dashboard-v1');
+          .otherwise('/app/applist');
           $stateProvider
               .state('app', {
                   abstract: true,
@@ -82,6 +83,37 @@ angular.module('app')
                                return $ocLazyLoad.load('textAngular').then(function()
                             		   {
                                    return $ocLazyLoad.load(['js/controllers/app/appController.js']);
+
+                            		   });
+                           }]
+                    }
+              })
+              
+              .state('app.versionupdate', {
+                  url: '/{appId}/versionedit',
+                  params:{plat:null},
+                  templateUrl: 'tpl/app/version_edit.html',
+                  resolve: {
+                	  deps: ['$ocLazyLoad',
+                             function( $ocLazyLoad ){
+                               return $ocLazyLoad.load('textAngular').then(function()
+                            		   {
+                                   return $ocLazyLoad.load(['js/controllers/app/versionController.js']);
+
+                            		   });
+                           }]
+                    }
+              })
+               .state('app.versionadd', {
+                  url: '/{appId}/version',
+                  templateUrl: 'tpl/app/version_add.html',
+                  params:{appName:null},
+                  resolve: {
+                	  deps: ['$ocLazyLoad',
+                             function( $ocLazyLoad ){
+                               return $ocLazyLoad.load('textAngular').then(function()
+                            		   {
+                                   return $ocLazyLoad.load(['js/controllers/app/versionController.js']);
 
                             		   });
                            }]

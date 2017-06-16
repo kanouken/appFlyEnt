@@ -66,11 +66,11 @@ public class AppService {
 
 	public AppDetailVo getDetail(Integer appId) {
 		App app = appdao.findOne(appId);
-		CurrentVersion cv = currentVersionDao.findByAppId(app.getId());
+		List<CurrentVersion> cvs = currentVersionDao.findByAppId(app.getId());
 		List<HistoryVersion> his = historyVersionDao.findByAppIdOrderByCreateTimeDesc(app.getId());
 		AppDetailVo detailVo = null;
 		detailVo = AppEntityMapper.INSTANCE.appToAppDetailVo(app);
-		detailVo.setCurrentVersion(AppVersionEntityMapper.INSTANCE.currentVersionToCurrentVersionVo(cv));
+		detailVo.setCurrentVersions(AppVersionEntityMapper.INSTANCE.currentVersionToCurrentVersionVo(cvs));
 		detailVo.setHistoryVersions(AppVersionEntityMapper.INSTANCE.historyVersionToHistoryVersionVo(his));
 		return detailVo;
 	}
