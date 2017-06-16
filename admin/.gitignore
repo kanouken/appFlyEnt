@@ -12,3 +12,4 @@ log
 .factorypath
 */.DS_Store
 logs
+/.apt_generated/
