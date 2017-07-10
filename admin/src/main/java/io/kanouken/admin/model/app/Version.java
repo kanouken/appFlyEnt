@@ -1,5 +1,6 @@
 package io.kanouken.admin.model.app;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 import io.kanouken.admin.model.BaseEntity;
@@ -23,4 +24,9 @@ public class Version extends BaseEntity {
 	private Byte updateNow;
 	
 	private String updateInfo;
+	
+	@Column(nullable = false)
+	private String downloadUrl;
+	
+	private String fileSize;
 }

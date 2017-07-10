@@ -1,6 +1,15 @@
 package io.kanouken.admin.service.appversion;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileSystemUtils;
 
 import io.kanouken.admin.properties.ConfigProperties;
 import lombok.Data;
@@ -48,7 +57,11 @@ public class PlistFactory {
 		this.downloadUrl = downloadUrl;
 	}
 
-	public void build() {
-
+	public void build(File destFile) throws IOException {
+		String is = PlistFactory.class.getResource("/default.plist").getFile();
+		String content = FileUtils.readFileToString(new File(is), "utf8");
+		content = content.replace("#{downloadUrl}", this.downloadUrl).replace("#{appId}", this.appId)
+				.replace("#{version}", this.version).replace("#{title}", this.title);
+		FileUtils.write(destFile, content, "utf8");
 	}
 }

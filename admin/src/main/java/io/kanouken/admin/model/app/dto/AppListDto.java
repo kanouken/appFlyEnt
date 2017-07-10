@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class AppListDto {
 	private String name;
+	private String customerName;
 	private String description;
 	private String icon;
 	private String keywords;

@@ -1,9 +1,17 @@
 package io.kanouken.admin.service.app;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.dom4j.IllegalAddException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.kanouken.admin.dao.app.AppDao;
@@ -12,6 +20,7 @@ import io.kanouken.admin.dao.appversion.AppVersionDao;
 import io.kanouken.admin.model.app.App;
 import io.kanouken.admin.model.app.CurrentVersion;
 import io.kanouken.admin.model.app.HistoryVersion;
+import io.kanouken.admin.model.app.dto.AppDownloadListDto;
 import io.kanouken.admin.model.app.dto.AppListDto;
 import io.kanouken.admin.model.app.mapper.AppEntityMapper;
 import io.kanouken.admin.model.app.vo.AppAddVo;
@@ -19,9 +28,10 @@ import io.kanouken.admin.model.app.vo.AppDetailVo;
 import io.kanouken.admin.model.app.vo.AppUpdateVo;
 import io.kanouken.admin.model.appversion.mapper.AppVersionEntityMapper;
 import io.kanouken.admin.model.user.dto.CurrentAccountDto;
+import io.kanouken.admin.service.BaseService;
 
 @Service
-public class AppService {
+public class AppService extends BaseService {
 
 	@Autowired
 	private AppDao appdao;
@@ -33,14 +43,32 @@ public class AppService {
 	AppHistoryVersionDao historyVersionDao;
 
 	public AppAddVo addApp(AppAddVo appAddVo, MultipartFile icon, CurrentAccountDto currentAccount) {
+		String _fileName = icon.getOriginalFilename();
+		String type = _fileName.substring(icon.getOriginalFilename().lastIndexOf("."), _fileName.length());
+		String destFile = this.config.getIconPath() + File.separator + appAddVo.getKeywords();
+		File pPath = new File(destFile);
+		if (!pPath.exists()) {
+			pPath.mkdirs();
+		}
+		String fileName = UUID.randomUUID().hashCode() + type;
+		destFile = destFile + File.separator + fileName;
+		try {
+			IOUtils.copy(icon.getInputStream(), new FileOutputStream(destFile));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		App app = new App();
 		app.setName(appAddVo.getName());
 		app.setDescription(appAddVo.getDescription());
-		app.setIcon(icon.getName());
 		app.setKeywords(appAddVo.getKeywords());
+		app.setIcon(app.getKeywords() + File.separator + fileName);
 		app.setAppId(appAddVo.getAppId());
+		app.setCustomerId(appAddVo.getCustomerId());
+		app.setCustomerName(appAddVo.getCustomerName());
+		app.setCustomerPrefix(appAddVo.getCustomerPrefix());
 		appdao.save(app);
-
 		return appAddVo;
 	}
 
@@ -73,6 +101,22 @@ public class AppService {
 		detailVo.setCurrentVersions(AppVersionEntityMapper.INSTANCE.currentVersionToCurrentVersionVo(cvs));
 		detailVo.setHistoryVersions(AppVersionEntityMapper.INSTANCE.historyVersionToHistoryVersionVo(his));
 		return detailVo;
+	}
+
+	@Transactional(readOnly = true)
+	public List<AppDownloadListDto> queryCustomerApps(String prefix, String plat) {
+		App app = appdao.findByCustomerPrefix(prefix);
+		if (null == app) {
+			throw new IllegalAddException("error customer prefix" + prefix);
+		}
+		List<CurrentVersion> cvs = currentVersionDao.findByAppCustomerPrefixAndPlat(prefix, plat);
+
+		List<AppDownloadListDto> downloadList = AppEntityMapper.INSTANCE.currentVersionToAppDownloadListDto(cvs);
+		downloadList.forEach(a -> {
+			a.setName(app.getName());
+			a.setIcon(app.getIcon());
+		});
+		return downloadList;
 	}
 
 }

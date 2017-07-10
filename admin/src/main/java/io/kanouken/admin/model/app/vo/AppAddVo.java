@@ -14,5 +14,6 @@ public class AppAddVo extends AbstractVo{
 	private String keywords;
 	private Integer customerId;
 	private String customerName;
+	private String customerPrefix;
 	private String appId;
 }

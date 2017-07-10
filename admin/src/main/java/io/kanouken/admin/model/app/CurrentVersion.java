@@ -9,4 +9,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class CurrentVersion extends Version {
+	
+	
 }

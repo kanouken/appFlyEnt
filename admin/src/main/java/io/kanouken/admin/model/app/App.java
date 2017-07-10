@@ -21,5 +21,11 @@ public class App extends BaseEntity {
 	private String keywords;
 	@Column(nullable = false)
 	private String appId;
+	@Column(nullable = false)
+	private Integer customerId;
+	@Column(nullable = false)
+	private String customerName;
+	@Column(nullable = false)
+	private String customerPrefix;
 
 }

@@ -5,10 +5,22 @@
  */
 angular.module('app')
   .run(
-    [          '$rootScope', '$state', '$stateParams',
-      function ($rootScope,   $state,   $stateParams) {
+    [          '$rootScope', '$state', '$stateParams','$sessionStorage',
+      function ($rootScope,   $state,   $stateParams,$sessionStorage) {
           $rootScope.$state = $state;
-          $rootScope.$stateParams = $stateParams;        
+          $rootScope.$stateParams = $stateParams; 
+          $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        	  if( toState.name!='access.signin' &&  ( $sessionStorage.userInfo == null|| $sessionStorage.userInfo == undefined)){
+        		  event.preventDefault();
+        		  $state.go("access.signin");
+        	  }
+        	  //              var permission = toState.permission;   
+//              if (toState.name!="login"&&!permissions.hasPermission(permission)) {
+//                  // event.preventDefault();
+//                  // $state.transitionTo("login");
+//              }
+          });
+          
       }
     ]
   )
@@ -17,7 +29,6 @@ angular.module('app')
       function ($stateProvider,   $urlRouterProvider) {
           
           $urlRouterProvider
-//              .otherwise('/app/dashboard-v1');
           .otherwise('/app/applist');
           $stateProvider
               .state('app', {
@@ -45,9 +56,15 @@ angular.module('app')
                     }]
                   }
               })
-                .state('downloadlist', {
-                  url: '/downloadlist',
-                  templateUrl: 'tpl/download_list.html'
+                .state('appdownload', {
+                  url: '/customer/{prefix}/download',
+                  templateUrl: 'tpl/app/download_list.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad ){
+                          return $ocLazyLoad.load(['js/controllers/app/downloadController.js']);
+                      }]
+                    }
               })
               /*customer*/
                .state('app.applist', {
@@ -394,7 +411,7 @@ angular.module('app')
                   resolve: {
                       deps: ['uiLoad',
                         function( uiLoad ){
-                          return uiLoad.load( ['js/controllers/signin.js'] );
+                          return uiLoad.load( ['js/controllers/signin.js','https://cdn.bootcss.com/blueimp-md5/2.7.0/js/md5.min.js'] );
                       }]
                   }
               })

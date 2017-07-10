@@ -12,4 +12,6 @@ public interface AppDao extends CrudRepository<App,Integer> {
 
 	List<App> findAllByOrderByCreateTimeDesc();
 
+	App findByCustomerPrefix(String prefix);
+
 }

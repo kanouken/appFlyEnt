@@ -3,9 +3,12 @@ package io.kanouken.admin.model.app.mapper;
 import java.util.List;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import io.kanouken.admin.model.app.App;
+import io.kanouken.admin.model.app.CurrentVersion;
+import io.kanouken.admin.model.app.dto.AppDownloadListDto;
 import io.kanouken.admin.model.app.dto.AppListDto;
 import io.kanouken.admin.model.app.vo.AppDetailVo;
 import io.kanouken.admin.model.app.vo.AppUpdateVo;
@@ -19,4 +22,9 @@ public interface AppEntityMapper {
 	
 	App appUpdateVoToApp(AppUpdateVo appUpdateVo);
 	AppDetailVo appToAppDetailVo(App app);
+	List<AppDownloadListDto> currentVersionToAppDownloadListDto(List<CurrentVersion> cvs);
+	@Mapping(source = "updateTime",dateFormat="yyyy-MM-dd",target="updateTime"
+			)
+	AppDownloadListDto currentVersionToAppDownloadListDto(CurrentVersion cvs);
+
 }

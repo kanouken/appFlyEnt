@@ -18,7 +18,7 @@ app.controller('VersionAddController',
 					};
 
 					$scope.addVersion = function() {
-						var appFile = $scope.app.file;
+						var appFile = $scope.version.file;
 						var fd = new FormData();
 						fd.append('appFile', appFile);
 						fd.append('version', $scope.version.version);

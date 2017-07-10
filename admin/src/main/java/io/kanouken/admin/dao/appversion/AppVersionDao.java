@@ -17,4 +17,6 @@ public interface AppVersionDao extends CrudRepository<CurrentVersion, Integer> {
 
 	@Query(value = "select current_version.* from app left join current_version on app.id = current_version.app_id where app.app_id = ?1 and current_version.plat = ?2 ",nativeQuery=true)
 	CurrentVersion findByAppIdAndPlat(String appId, String plat);
+	@Query(value = "select current_version.* from app left join current_version on app.id = current_version.app_id where app.customer_prefix = ?1 and current_version.plat = ?2 ",nativeQuery=true)
+	List<CurrentVersion>  findByAppCustomerPrefixAndPlat(String prefix,String plat);
 }

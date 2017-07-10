@@ -1,5 +1,7 @@
 package io.kanouken.admin.controller.appversion;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,19 +25,26 @@ public class AppVersionController extends BaseController {
 	@Autowired
 	AppVersionService versionService;
 
+	
+	
 	@PostMapping("app/{id}/version")
-	public void addVersion(MultipartFile appFile, @PathVariable("id") Integer appId, VersionAddVo versionAddVo) {
+	public void addVersion(MultipartFile appFile, @PathVariable("id") Integer appId, VersionAddVo versionAddVo) throws IOException {
 		versionAddVo.setAppId(appId);
-		this.versionService.addVersion(versionAddVo, currentAccount);
+		this.versionService.addVersion(appFile,versionAddVo, currentAccount);
 	}
 
 	@PutMapping("app/{id}/version")
 	public void updateVersion(@PathVariable("id") Integer appId, MultipartFile appFile,
 			VersionUpdateVo versionUpdateVo) {
 		versionUpdateVo.setAppId(appId);
-		versionService.updateVersion(versionUpdateVo, currentAccount);
+		versionService.updateVersion(appFile,versionUpdateVo, currentAccount);
 	}
-
+	/**
+	 * 客户端检更新版本
+	 * @param plat
+	 * @param appId
+	 * @return
+	 */
 	@GetMapping("/app/version/current")
 	public CurrentVersionVo currentVersion(@RequestParam(value = "plat") String plat,
 			@RequestParam(value = "appId") String appId) {

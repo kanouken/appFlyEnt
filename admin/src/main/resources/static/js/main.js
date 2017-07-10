@@ -3,8 +3,8 @@
 /* Controllers */
 
 angular.module('app')
-  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', 
-    function(              $scope,   $translate,   $localStorage,   $window ) {
+  .controller('AppCtrl', ['$scope','$state', '$translate', '$localStorage', '$window', '$sessionStorage', 
+    function(              $scope, $state,  $translate,   $localStorage,   $window ,$sessionStorage) {
       // add 'ie' classes to html
       var isIE = !!navigator.userAgent.match(/MSIE/i);
       isIE && angular.element($window.document.body).addClass('ie');
@@ -38,12 +38,20 @@ angular.module('app')
         }
       }
 
+      //user info
+      $scope.$storage = $sessionStorage;
+      $scope.logout = function(){
+    	  $sessionStorage.$reset();
+    	  //switch login
+    	  $state.go('access.signin');
+      };
       // save settings to local storage
       if ( angular.isDefined($localStorage.settings) ) {
         $scope.app.settings = $localStorage.settings;
       } else {
         $localStorage.settings = $scope.app.settings;
       }
+      
       $scope.$watch('app.settings', function(){
         if( $scope.app.settings.asideDock  &&  $scope.app.settings.asideFixed ){
           // aside dock and fixed must set the header fixed.

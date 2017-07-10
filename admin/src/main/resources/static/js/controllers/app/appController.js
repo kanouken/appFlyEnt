@@ -31,7 +31,7 @@ app.controller(
 								columns : [ 
 								{data:'id'},    
 								{
-									data : 'appId'
+									data : 'customerName'
 								}, {
 									data : 'name'
 
@@ -74,10 +74,28 @@ app.controller(
 
 						} ]);
 
-app.controller('AppAddController', [ '$scope', '$http', '$state',
-		function($scope, $http, $state) {
+app.controller('AppAddController', [ '$scope', '$http', '$state','$sessionStorage',
+		function($scope, $http, $state,$sessionStorage) {
 			$scope.app = {};
-			
+			//get customer from crm 
+			//headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+
+			$scope.getCustomer = function(){
+				$http.get('https://api.onestong.cn/8002/crm/customer/list').then(function(response) {
+					var statusCode = response.data.statusCode;
+					if(statusCode!= null && statusCode != undefined && statusCode == '200'){
+						$scope.customers = response.data.data.objects;
+						$(response.data.data.objects).each(function(i,k){
+							console.log(k);
+							$("<option value='"+ k.id+"_"+k.name +"_"+ k.szm +"'>"+k.name +"</option>").appendTo($("#customer"));
+						});
+						$("#customer").trigger("chosen:updated");
+					}
+				}, function(x) {
+				});
+				
+			};
+			$scope.getCustomer();
 			$scope.addApp = function() {
 				 var icon = $scope.icon;
 				 var fd = new FormData();
@@ -87,6 +105,10 @@ app.controller('AppAddController', [ '$scope', '$http', '$state',
 			     console.log($scope.app.description);
 			     fd.append('appId',$scope.app.appId);
 			     fd.append('keywords',$scope.app.keywords);
+			     var customer = $scope.app.customer.split("_");
+			     fd.append('customerId',customer[0]);
+			     fd.append('customerName',customer[1]);
+			     fd.append('customerPrefix',customer[2]);
 				$http.post('app' ,fd, {
 					 transformRequest: angular.identity,
 			         headers: {'Content-Type': undefined,}
