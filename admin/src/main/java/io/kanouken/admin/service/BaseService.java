@@ -11,7 +11,7 @@ public abstract class BaseService {
 	@Autowired
 	protected ConfigProperties  config;
 	
-	@Value("${server.context-path}")
-	protected String ctxPath;
-	
+//	@Value("${server.context-path}")
+//	protected String ctxPath;
+//	
 }
