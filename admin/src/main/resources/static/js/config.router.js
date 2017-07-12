@@ -10,10 +10,30 @@ angular.module('app')
           $rootScope.$state = $state;
           $rootScope.$stateParams = $stateParams; 
           $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-        	  if( ( toState.name!='appdownload' || toState.name!='access.signin') &&  ( $sessionStorage.userInfo == null|| $sessionStorage.userInfo == undefined)){
-        		  event.preventDefault();
-        		  $state.go("access.signin");
-        	  }
+        	  console.log(toState.name +"--------state");
+        	  var userInfo = $sessionStorage.userInfo;
+        	  if (null ==  userInfo || userInfo == undefined) {
+                  if(toState.name == 'appdownload'){
+                	  
+                	  
+                  }else{
+        		  if (toState.name !== 'access.signin') {
+                      $state.go('access.signin');
+                      event.preventDefault();
+                  }}
+              } else {
+                  if(toState.name === 'access.signin') {
+                      $state.go('app.applist');
+                      event.preventDefault();
+                  }
+              }
+        	  
+        	  
+        	  
+//        	  if( ( toState.name!='appdownload' || toState.name!='access.signin') &&  ( $sessionStorage.userInfo == null|| $sessionStorage.userInfo == undefined)){
+//        		  event.preventDefault();
+//        		  $state.go("access.signin");
+//        	  }
         	  //              var permission = toState.permission;   
 //              if (toState.name!="login"&&!permissions.hasPermission(permission)) {
 //                  // event.preventDefault();
