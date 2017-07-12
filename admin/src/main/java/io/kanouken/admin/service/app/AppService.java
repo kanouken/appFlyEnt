@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.dom4j.IllegalAddException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,17 +106,20 @@ public class AppService extends BaseService {
 
 	@Transactional(readOnly = true)
 	public List<AppDownloadListDto> queryCustomerApps(String prefix, String plat) {
-		App app = appdao.findByCustomerPrefix(prefix);
-		if (null == app) {
+		List<App> apps = appdao.findByCustomerPrefix(prefix);
+		if (CollectionUtils.isEmpty(apps)) {
 			throw new IllegalAddException("error customer prefix" + prefix);
 		}
 		List<CurrentVersion> cvs = currentVersionDao.findByAppCustomerPrefixAndPlat(prefix, plat);
-
-		List<AppDownloadListDto> downloadList = AppEntityMapper.INSTANCE.currentVersionToAppDownloadListDto(cvs);
-		downloadList.forEach(a -> {
-			a.setName(app.getName());
-			a.setIcon(app.getIcon());
-		});
+		
+		List<AppDownloadListDto> downloadList =  AppEntityMapper.INSTANCE.currentVersionToAppDownloadListDto(cvs);
+		App app = null;
+		for(AppDownloadListDto  download : downloadList){
+			app = appdao.findOne(download.getAppId());
+			download.setName(app.getName());
+			download.setIcon(app.getIcon());
+		}
+		
 		return downloadList;
 	}
 

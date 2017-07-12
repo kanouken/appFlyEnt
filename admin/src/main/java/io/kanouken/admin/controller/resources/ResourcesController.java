@@ -33,6 +33,10 @@ public class ResourcesController extends BaseController {
 		if ("img".equals(resourceType)) {
 			targetFilePath = config.getIconPath();
 		}
+		String filename = file.substring(file.lastIndexOf(File.separator)+1, file.length());
+		headers.setContentDispositionFormData("attachment", 
+				filename);  
+		
 		return new ResponseEntity<byte[]>(
 				FileCopyUtils.copyToByteArray(new File(targetFilePath + File.separator + file)), headers,
 				HttpStatus.CREATED);

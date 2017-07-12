@@ -11,4 +11,6 @@ public class AppDownloadListDto {
 	private String updateTime;
 	private String version;
 	private String downloadUrl;
+	
+	private Integer appId;
 }
