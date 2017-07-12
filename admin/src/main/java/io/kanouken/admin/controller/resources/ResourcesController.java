@@ -39,7 +39,10 @@ public class ResourcesController extends BaseController {
 		}
 		String filename = file.substring(file.lastIndexOf(File.separator) + 1, file.length());
 		headers.setContentDispositionFormData("attachment", filename);
-
+		
+		if(filename.endsWith("apk")){
+			headers.add("Content-Type", "application/vnd.Android.package-archive");
+		}
 		return new ResponseEntity<byte[]>(
 				FileCopyUtils.copyToByteArray(new File(targetFilePath + File.separator + file)), headers,
 				HttpStatus.CREATED);
