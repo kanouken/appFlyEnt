@@ -10,7 +10,7 @@ angular.module('app')
           $rootScope.$state = $state;
           $rootScope.$stateParams = $stateParams; 
           $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-        	  if( toState.name!='access.signin' &&  ( $sessionStorage.userInfo == null|| $sessionStorage.userInfo == undefined)){
+        	  if( ( toState.name!='appdownload' || toState.name!='access.signin') &&  ( $sessionStorage.userInfo == null|| $sessionStorage.userInfo == undefined)){
         		  event.preventDefault();
         		  $state.go("access.signin");
         	  }
