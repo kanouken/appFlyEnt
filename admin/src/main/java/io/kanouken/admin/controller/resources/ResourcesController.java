@@ -20,7 +20,7 @@ import io.kanouken.admin.controller.BaseController;
 @Controller
 public class ResourcesController extends BaseController {
 
-	@GetMapping("resources/{resourceType}/{file}")
+	@GetMapping("resources/{resourceType}/{file:.+}")
 	public ResponseEntity<byte[]> download(@PathVariable("file") String file,
 			@PathVariable("resourceType") String resourceType) throws IOException {
 		HttpHeaders headers = new HttpHeaders();
