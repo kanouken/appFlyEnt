@@ -58,8 +58,8 @@ public class PlistFactory {
 	}
 
 	public void build(File destFile) throws IOException {
-		String is = PlistFactory.class.getResource("/default.plist").getFile();
-		String content = FileUtils.readFileToString(new File(is), "utf8");
+		InputStream is = this.getClass().getClassLoader().getResourceAsStream("default.plist");
+		String content = org.apache.commons.io.IOUtils.toString(is);
 		content = content.replace("#{downloadUrl}", this.downloadUrl).replace("#{appId}", this.appId)
 				.replace("#{version}", this.version).replace("#{title}", this.title);
 		FileUtils.write(destFile, content, "utf8");
