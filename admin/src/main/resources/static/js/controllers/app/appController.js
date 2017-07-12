@@ -130,7 +130,8 @@ app.controller('AppEditController', [ '$scope', '$http', '$state',
 				$http.get('app/' + $stateParams.id).then(function(response) {
 					if (response.status == 200) {
 						$scope.app = response.data;
-						console.log(response.data);
+						$scope.app.icon = 
+							$scope.app.icon.replace("/",".");
 					}
 				}, function(x) {
 					// alter error
