@@ -20,15 +20,14 @@ import io.kanouken.admin.controller.BaseController;
 @Controller
 public class ResourcesController extends BaseController {
 
-	@GetMapping("resources/{resourceType}/{file:.+}")
+	@GetMapping("resources/{resourceType}/{file}")
 	public ResponseEntity<byte[]> download(@PathVariable("file") String file,
 			@PathVariable("resourceType") String resourceType) throws IOException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		String targetFilePath = "";
-		String[] filePath = file.split("\\.");
+		String[] filePath = file.split("-");
 		file = Arrays.asList(filePath).stream().collect(Collectors.joining(File.separator));
-		file = file.substring(0, file.lastIndexOf(File.separator)) + "." +(file.substring(file.lastIndexOf(File.separator)+1,file.length()));
 		if ("plist".equals(resourceType)) {
 			targetFilePath = config.getPlistFilePath();
 		}

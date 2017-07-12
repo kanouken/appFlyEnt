@@ -51,7 +51,11 @@ public class AppService extends BaseService {
 		if (!pPath.exists()) {
 			pPath.mkdirs();
 		}
-		String fileName = UUID.randomUUID().hashCode() + type;
+		int tmp = UUID.randomUUID().hashCode();
+		if(tmp < 0 ){
+			tmp = tmp*-1;
+		}
+		String fileName = tmp + type;
 		destFile = destFile + File.separator + fileName;
 		try {
 			IOUtils.copy(icon.getInputStream(), new FileOutputStream(destFile));
@@ -99,6 +103,7 @@ public class AppService extends BaseService {
 		List<HistoryVersion> his = historyVersionDao.findByAppIdOrderByCreateTimeDesc(app.getId());
 		AppDetailVo detailVo = null;
 		detailVo = AppEntityMapper.INSTANCE.appToAppDetailVo(app);
+		detailVo.setIcon(detailVo.getIcon().replace(File.separator, "-"));
 		detailVo.setCurrentVersions(AppVersionEntityMapper.INSTANCE.currentVersionToCurrentVersionVo(cvs));
 		detailVo.setHistoryVersions(AppVersionEntityMapper.INSTANCE.historyVersionToHistoryVersionVo(his));
 		return detailVo;
@@ -117,7 +122,7 @@ public class AppService extends BaseService {
 		for(AppDownloadListDto  download : downloadList){
 			app = appdao.findOne(download.getAppId());
 			download.setName(app.getName());
-			download.setIcon(app.getIcon());
+			download.setIcon(app.getIcon().replace(File.separator, "-"));
 		}
 		
 		return downloadList;

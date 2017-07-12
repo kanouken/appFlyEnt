@@ -43,7 +43,7 @@ public class AppVersionService extends BaseService {
 		String appFileName = app.getKeywords() + "_" + versionAddVo.getVersion()
 				+ _oname.substring(_oname.lastIndexOf("."), _oname.length());
 		downLoadUrl = config.getPublicUrl() + "/resources/app/" + app.getKeywords()
-				+ "." + versionAddVo.getPlat() +"." + versionAddVo.getVersion() + "."
+				+ "-" + versionAddVo.getPlat() +"-" + versionAddVo.getVersion() + "-"
 				+ appFileName;
 		File pPath = new File(config.getAppFilePath() + File.separator + app.getKeywords() + File.separator
 				+ versionAddVo.getPlat() + File.separator + versionAddVo.getVersion());
@@ -64,7 +64,7 @@ public class AppVersionService extends BaseService {
 				pPath.mkdirs();
 			}
 			downLoadUrl = "itms-services://?action=download-manifest&url=" + config.getPublicUrl()
-					+ "/resources/plist/" + app.getKeywords() + "." + app.getKeywords()+"_"+versionAddVo.getVersion()
+					+ "/resources/plist/" + app.getKeywords() + "-" + app.getKeywords()+"_"+versionAddVo.getVersion()
 					+ ".plist";
 		}
 		FileUtils.copyInputStreamToFile(appFile.getInputStream(), new File(pPath, appFileName));
