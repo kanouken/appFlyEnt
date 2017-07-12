@@ -11,16 +11,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import io.kanouken.admin.controller.BaseController;
 
 @Controller
 public class ResourcesController extends BaseController {
 
-	@GetMapping("resources/{resourceType}/{file:.+}")
+	@RequestMapping(value="resources/{resourceType}/{file:.+}",method=RequestMethod.GET)
 	public ResponseEntity<byte[]> download(@PathVariable("file") String file,
 			@PathVariable("resourceType") String resourceType) throws IOException {
 		HttpHeaders headers = new HttpHeaders();
@@ -39,13 +39,13 @@ public class ResourcesController extends BaseController {
 		}
 		String filename = file.substring(file.lastIndexOf(File.separator) + 1, file.length());
 		headers.setContentDispositionFormData("attachment", filename);
-		
-		if(filename.endsWith("apk")){
-			headers.add("Content-Type", "application/vnd.Android.package-archive");
-		}
+//		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+//	    headers.add("Pragma", "no-cache");
+//	    headers.add("Expires", "0");
+//	    headers.setContentLength(new File(targetFilePath + File.separator + file).length());
 		return new ResponseEntity<byte[]>(
 				FileCopyUtils.copyToByteArray(new File(targetFilePath + File.separator + file)), headers,
-				HttpStatus.CREATED);
+				HttpStatus.OK);
 	}
 
 }
