@@ -17,10 +17,16 @@ app.controller('SigninFormController', [ '$scope', '$http', '$state',
 					data:$.param({email: $scope.user.email, password: md5($scope.user.password) }),
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 				}).then(function successCallback(response) {
-					$sessionStorage.userInfo = response.data.data;
-					console.log(response.data.data);
-					$scope.rootScope.$broadcast('user.login.success');
-					$state.go("app.applist");
+					var statusCode = response.data.statusCode;
+					if(statusCode != '200'){
+						$scope.authError = '用户名或密码错误';
+					}else{
+						$sessionStorage.userInfo = response.data.data;
+						
+						$scope.rootScope.$broadcast('user.login.success');
+						$state.go("app.applist");
+					}
+					
 				}, function errorCallback(response) {
 					$scope.authError = 'Server Error';
 				});
