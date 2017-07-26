@@ -4,8 +4,8 @@ app.controller('VersionAddController',
 				'$scope',
 				'$http',
 				'$state',
-				'$stateParams',
-				function($scope, $http, $state, $stateParams) {
+				'$stateParams','toaster',
+				function($scope, $http, $state, $stateParams,toaster) {
 
 					$scope.initData = function() {
 						$scope.version = {};
@@ -18,6 +18,8 @@ app.controller('VersionAddController',
 					};
 
 					$scope.addVersion = function() {
+						toaster.pop('wait', 'info','正在处理');
+						$scope.processing = true;
 						var appFile = $scope.version.file;
 						var fd = new FormData();
 						fd.append('appFile', appFile);
@@ -32,10 +34,13 @@ app.controller('VersionAddController',
 							}
 						}).then(function(response) {
 							if (response.status == 200) {
+								  toaster.clear();
+								  $scope.processing = false;
 								  $state.go('app.appedit',{id:$scope.app.id});
 							}
 						}, function(x) {
-							// alter error
+							toaster.clear();
+							$scope.processing = false;
 						});
 					};
 
@@ -85,8 +90,8 @@ app.controller('VersionEditController', [
 		'$scope',
 		'$http',
 		'$state',
-		'$stateParams',
-		function($scope, $http, $state, $stateParams) {
+		'$stateParams','toaster',
+		function($scope, $http, $state, $stateParams,toaster) {
 			$scope.queryVersion = function() {
 				$http.get(
 						'app/' + $stateParams.appId + "/" + $stateParams.plat
@@ -102,6 +107,8 @@ app.controller('VersionEditController', [
 			$scope.queryVersion();
 
 			$scope.updateVersion = function() {
+				toaster.pop('wait', 'info','正在处理');
+				$scope.processing = true;
 				var appFile = $scope.app.file;
 				var fd = new FormData();
 				fd.append('appFile', appFile);
@@ -116,10 +123,13 @@ app.controller('VersionEditController', [
 					}
 				}).then(function(response) {
 					if (response.status == 200) {
+						toaster.clear();
+						  $scope.processing = false;
 					   $state.go('app.appedit',{id:$scope.version.appId});
 					}
 				}, function(x) {
-					// alter error
+					toaster.clear();
+					  $scope.processing = false;
 				});
 			};
 

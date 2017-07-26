@@ -2,6 +2,7 @@
 	<h1 class="m-n font-thin h3">发布/升级({{appname}})</h1>
 </div>
 <div class="wrapper-md" ng-controller="VersionAddController">
+	<toaster-container toaster-options="{'position-class': 'toast-top-right','tap-to-dismiss':false, 'close-button':false,'time-out': 0}"></toaster-container>
 	<div class="panel panel-default">
 		<div class="panel-heading font-bold">发布一个新的应用/升级一个现有应用</div>
 		<div class="panel-body">
@@ -89,8 +90,7 @@
 
 				<div class="form-group">
 					<div class="col-sm-4 col-sm-offset-2">
-						<button type="reset" class="btn btn-default">取消</button>
-						<button type="submit" ng-click="addVersion()" class="btn btn-primary">保存</button>
+						<button type="submit" ng-disabled="processing" ng-click="addVersion()" class="btn btn-primary">保存</button>
 					</div>
 				</div>
 			</form>

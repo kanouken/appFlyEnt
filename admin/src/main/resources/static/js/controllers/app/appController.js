@@ -29,11 +29,11 @@ app.controller(
 							$scope.dtoption = {
 								sAjaxSource : 'apps',
 								columns : [ 
-								{data:'id'},    
+								{data:'name'},    
 								{
 									data : 'customerName'
 								}, {
-									data : 'name'
+									data : 'appId'
 
 								}, {
 									data : null
@@ -44,9 +44,9 @@ app.controller(
 											data : "id",
 											render : function(data, type, full) {
 												return '<a ui-sref="app.appedit({id:'
-														+ data
+														+ full.id
 														+ ' })">'
-														+ data
+														+ full.name
 														+ '</a>';
 											},
 											targets : [ 0 ],
@@ -58,8 +58,16 @@ app.controller(
 										},
 										{
 											render : function(data, type, full) {
+											//	return '<button ng-click="deleteFoo('+data.id+')" class="btn m-b-xs btn-sm btn-info btn-addon"><i class="fa fa-trash-o"></i>刪除</button>';
 												
-												return '<button ng-click="deleteFoo('+data.id+')" class="btn m-b-xs btn-sm btn-warning btn-addon">删除</button>';
+											return	'<div class="btn-group dropdown" dropdown="">' +
+										        '  <button class="btn btn-default" dropdown-toggle="" aria-haspopup="true" aria-expanded="false">操作 <span class="caret"></span></button>'+
+										          '<ul class="dropdown-menu"> ' +
+										           ' <li><a href="">删除</a></li> ' +
+										           ' <li><a href="">编辑</a></li>' +
+										          '  <li><a href="">显示二维码</a></li>' +
+										         ' </ul>'+
+										      '  </div>';
 											},
 											targets : [ -1],
 											createdCell : function(nTd, sData,
@@ -74,8 +82,8 @@ app.controller(
 
 						} ]);
 
-app.controller('AppAddController', [ '$scope', '$http', '$state','$sessionStorage',
-		function($scope, $http, $state,$sessionStorage) {
+app.controller('AppAddController', [ '$scope', '$http', '$state','$sessionStorage','toaster',
+		function($scope, $http, $state,$sessionStorage,toaster) {
 			$scope.app = {};
 			//get customer from crm 
 			//headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
@@ -97,10 +105,13 @@ app.controller('AppAddController', [ '$scope', '$http', '$state','$sessionStorag
 			};
 			$scope.getCustomer();
 			$scope.addApp = function() {
+				 toaster.pop('wait', 'info','正在处理');
+				 $scope.processing = true;
 				 var icon = $scope.icon;
 				 var fd = new FormData();
 			     fd.append('icon', icon);
 			     fd.append('name',$scope.app.name);
+			     console.log($scope.app.description)
 			     fd.append('description',$scope.app.description);
 			     console.log($scope.app.description);
 			     fd.append('appId',$scope.app.appId);
@@ -114,10 +125,13 @@ app.controller('AppAddController', [ '$scope', '$http', '$state','$sessionStorag
 			         headers: {'Content-Type': undefined,}
 				}).then(function(response) {
 					if (response.status == 200) {
+						toaster.clear();
+						$scope.processing = false;
 						$state.go('app.applist');
 					}
 				}, function(x) {
-					// alter error
+					toaster.clear();
+					$scope.processing = false;
 				});
 			};
 			

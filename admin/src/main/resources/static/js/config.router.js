@@ -105,7 +105,7 @@ angular.module('app')
                              function( $ocLazyLoad ){
                                return $ocLazyLoad.load('textAngular').then(function()
                             		   {
-                                   return $ocLazyLoad.load(['js/controllers/app/appController.js']);
+                                   return $ocLazyLoad.load(['js/controllers/app/appController.js','toaster']);
 
                             		   });
                            }]
@@ -135,7 +135,7 @@ angular.module('app')
                              function( $ocLazyLoad ){
                                return $ocLazyLoad.load('textAngular').then(function()
                             		   {
-                                   return $ocLazyLoad.load(['js/controllers/app/versionController.js']);
+                                   return $ocLazyLoad.load(['js/controllers/app/versionController.js','toaster']);
 
                             		   });
                            }]
@@ -150,7 +150,7 @@ angular.module('app')
                              function( $ocLazyLoad ){
                                return $ocLazyLoad.load('textAngular').then(function()
                             		   {
-                                   return $ocLazyLoad.load(['js/controllers/app/versionController.js']);
+                                   return $ocLazyLoad.load(['js/controllers/app/versionController.js','toaster']);
 
                             		   });
                            }]
