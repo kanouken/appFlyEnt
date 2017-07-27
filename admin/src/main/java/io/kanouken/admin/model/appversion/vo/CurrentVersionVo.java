@@ -13,4 +13,6 @@ public class CurrentVersionVo {
 	private Byte updateNow;
 
 	private String updateInfo;
+	private String downloadUrl;
+
 }
