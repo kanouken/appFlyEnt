@@ -11,4 +11,5 @@ public class AppListDto {
 	private String keywords;
 	private String appId;
 	private String id;
+	private String qrCode;
 }

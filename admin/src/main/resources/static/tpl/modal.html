@@ -1,15 +1,19 @@
+<style>
+.app-modal-window .modal-dialog {
+  width: 330px;
+}
+</style>
 <div class="modal-header">
-    <h3 class="modal-title">Modal!</h3>
+	<h3 class="modal-title">{{title}}</h3>
 </div>
 <div class="modal-body">
-    <ul>
+	<!--  <ul>
         <li ng-repeat="item in items">
             <a ng-click="selected.item = item">{{ item }}</a>
         </li>
     </ul>
-    Selected: <b>{{ selected.item }}</b>
+    Selected: <b>{{ selected.item }}</b> -->
+	<img ng-src="resources/img/{{qrCode}}" class="img-rounded">
 </div>
-<div class="modal-footer">                  
-    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
+<div class="modal-footer">
 </div>

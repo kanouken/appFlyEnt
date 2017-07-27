@@ -27,5 +27,8 @@ public class App extends BaseEntity {
 	private String customerName;
 	@Column(nullable = false)
 	private String customerPrefix;
+	
+	private String qrCode;
+	
 
 }

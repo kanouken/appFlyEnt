@@ -8,8 +8,8 @@ app.controller(
 						'$scope',
 						'$http',
 						'$state',
-						'$compile',
-						function($scope, $http, $state, $compile) {
+						'$compile','$modal',
+						function($scope, $http, $state, $compile,$modal) {
 							$scope.foo = {};
 							$scope.preAdd = function() {
 								$state.go('app.appadd');
@@ -17,7 +17,24 @@ app.controller(
 							$scope.preEdit = function() {
 								$state.go('app.appedit');
 							};
-							
+							$scope.showQrCode = function(qrCode){
+							     var modalInstance = $modal.open({
+								        templateUrl: 'myModalContent.html',
+								        controller: 'ModalInstanceCtrl',
+								        size:'sm',
+								        windowClass: 'app-modal-window',
+								        resolve: {
+								          qrCode: function () {
+								            return qrCode;
+								          }
+								        }
+								      });
+								      modalInstance.result.then(function (selectedItem) {
+								        $scope.selected = selectedItem;
+								      }, function () {
+								      });
+								
+							};
 							$scope.deleteFoo = function(id){
 								$http.delete('app/'+id).then(function(response) {
 									if (response.status == 200) {
@@ -63,9 +80,8 @@ app.controller(
 											return	'<div class="btn-group dropdown" dropdown="">' +
 										        '  <button class="btn btn-default" dropdown-toggle="" aria-haspopup="true" aria-expanded="false">操作 <span class="caret"></span></button>'+
 										          '<ul class="dropdown-menu"> ' +
-										           ' <li><a href="">删除</a></li> ' +
 										           ' <li><a href="">编辑</a></li>' +
-										          '  <li><a href="">显示二维码</a></li>' +
+										          '  <li><a href=""  ng-click="showQrCode(\''+ data.qrCode +'\');" >显示二维码</a></li>' +
 										         ' </ul>'+
 										      '  </div>';
 											},
@@ -176,3 +192,23 @@ app.controller('AppEditController', [ '$scope', '$http', '$state',
 			}
 
 		} ]);
+app.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'qrCode', function($scope, $modalInstance, qrCode) {
+    $scope.qrCode = qrCode;
+    $scope.title = '下载二维码';
+//    $scope.selected = {
+//      item: $scope.items[0]
+//    };
+
+//    $scope.ok = function () {
+//      $modalInstance.close($scope.selected.item);
+//    };
+//
+//    $scope.cancel = function () {
+//      $modalInstance.dismiss('cancel');
+//    };
+  }]) ; 
+		
+		
+		
+		
+		

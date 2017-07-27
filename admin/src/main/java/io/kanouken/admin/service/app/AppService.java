@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.dom4j.IllegalAddException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import io.kanouken.admin.model.app.vo.AppUpdateVo;
 import io.kanouken.admin.model.appversion.mapper.AppVersionEntityMapper;
 import io.kanouken.admin.model.user.dto.CurrentAccountDto;
 import io.kanouken.admin.service.BaseService;
+import io.kanouken.admin.tool.QRCodeUtil;
 
 @Service
 public class AppService extends BaseService {
@@ -43,7 +45,7 @@ public class AppService extends BaseService {
 	@Autowired
 	AppHistoryVersionDao historyVersionDao;
 
-	public AppAddVo addApp(AppAddVo appAddVo, MultipartFile icon, CurrentAccountDto currentAccount) {
+	public AppAddVo addApp(AppAddVo appAddVo, MultipartFile icon, CurrentAccountDto currentAccount) throws Exception {
 		String _fileName = icon.getOriginalFilename();
 		String type = _fileName.substring(icon.getOriginalFilename().lastIndexOf("."), _fileName.length());
 		String destFile = this.config.getIconPath() + File.separator + appAddVo.getKeywords();
@@ -52,8 +54,8 @@ public class AppService extends BaseService {
 			pPath.mkdirs();
 		}
 		int tmp = UUID.randomUUID().hashCode();
-		if(tmp < 0 ){
-			tmp = tmp*-1;
+		if (tmp < 0) {
+			tmp = tmp * -1;
 		}
 		String fileName = tmp + type;
 		destFile = destFile + File.separator + fileName;
@@ -73,13 +75,41 @@ public class AppService extends BaseService {
 		app.setCustomerId(appAddVo.getCustomerId());
 		app.setCustomerName(appAddVo.getCustomerName());
 		app.setCustomerPrefix(appAddVo.getCustomerPrefix());
+		//生成 二维码
+		File qrCodeFile =  this.generatorQrCode(app.getCustomerPrefix());
+		destFile = this.config.getIconPath() + File.separator + app.getCustomerPrefix();
+		pPath = new File(destFile);
+		if (!pPath.exists()) {
+			pPath.mkdirs();
+		}
+		tmp = UUID.randomUUID().hashCode();
+		if (tmp < 0) {
+			tmp = tmp * -1;
+		}
+		fileName = tmp +".jpg";
+		destFile = destFile + File.separator + fileName;
+		FileUtils.copyFile(qrCodeFile, new File(destFile));
+		app.setQrCode(app.getCustomerPrefix()+File.separator + fileName);
 		appdao.save(app);
 		return appAddVo;
+	}
+
+	protected File  generatorQrCode(String customerPrefix) throws Exception {
+		String publicUrl = this.config.getPublicUrl();
+		String qrContent = publicUrl + "/#customer/" + customerPrefix + "/download";
+		String destPath = System.getProperty("java.io.tmpdir");
+		File qrCodeFile = QRCodeUtil.encode(qrContent, null, destPath, true);
+		return qrCodeFile;
 	}
 
 	public List<AppListDto> queryApps() {
 		List<App> apps = this.appdao.findAllByOrderByCreateTimeDesc();
 		List<AppListDto> applistDtos = AppEntityMapper.INSTANCE.appToAppListDto(apps);
+		if(CollectionUtils.isNotEmpty(applistDtos)){
+			applistDtos.forEach(app->{
+				app.setQrCode(app.getQrCode().replace(File.separator, "-"));
+			});
+		}
 		return applistDtos;
 
 	}
@@ -116,15 +146,15 @@ public class AppService extends BaseService {
 			throw new IllegalAddException("error customer prefix" + prefix);
 		}
 		List<CurrentVersion> cvs = currentVersionDao.findByAppCustomerPrefixAndPlat(prefix, plat);
-		
-		List<AppDownloadListDto> downloadList =  AppEntityMapper.INSTANCE.currentVersionToAppDownloadListDto(cvs);
+
+		List<AppDownloadListDto> downloadList = AppEntityMapper.INSTANCE.currentVersionToAppDownloadListDto(cvs);
 		App app = null;
-		for(AppDownloadListDto  download : downloadList){
+		for (AppDownloadListDto download : downloadList) {
 			app = appdao.findOne(download.getAppId());
 			download.setName(app.getName());
 			download.setIcon(app.getIcon().replace(File.separator, "-"));
 		}
-		
+
 		return downloadList;
 	}
 

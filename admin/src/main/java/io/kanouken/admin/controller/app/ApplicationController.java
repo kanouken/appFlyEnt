@@ -29,7 +29,7 @@ public class ApplicationController extends BaseController {
 	private AppService appService;
 
 	@PostMapping("app")
-	public AppAddVo addApp(AppAddVo appAddVo, MultipartFile icon) throws UnsupportedEncodingException {
+	public AppAddVo addApp(AppAddVo appAddVo, MultipartFile icon) throws Exception {
 		return appService.addApp(appAddVo, icon, currentAccount);
 	}
 
