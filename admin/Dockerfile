@@ -9,7 +9,7 @@ RUN apk --update add curl bash openjdk8-jre-base && \
 ENV JAVA_HOME /usr/lib/jvm/default-jvm
 ENV PATH ${PATH}:${JAVA_HOME}/bin
 ENV	PROFILE pro
-ENV JAVA_OPTS="-server -Xmx300M -Xms300M"
+ENV JAVA_OPTS="-server -Xmx500M -Xms500M"
 COPY admin/target/*.jar  /app.jar
 RUN bash -c 'touch /app.jar'
 VOLUME /tmp
