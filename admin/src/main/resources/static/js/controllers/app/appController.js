@@ -110,7 +110,6 @@ app.controller('AppAddController', [ '$scope', '$http', '$state','$sessionStorag
 					if(statusCode!= null && statusCode != undefined && statusCode == '200'){
 						$scope.customers = response.data.data.objects;
 						$(response.data.data.objects).each(function(i,k){
-							console.log(k);
 							$("<option value='"+ k.id+"_"+k.name +"_"+ k.szm +"'>"+k.name +"</option>").appendTo($("#customer"));
 						});
 						$("#customer").trigger("chosen:updated");
