@@ -8,9 +8,8 @@ RUN apk --update add curl bash openjdk8-jre fontconfig ttf-dejavu && \
 # Set environment
 ENV JAVA_HOME /usr/lib/jvm/default-jvm
 ENV PATH ${PATH}:${JAVA_HOME}/bin
-ENV	PROFILE pro
 COPY target/*.jar  /app.jar
 RUN bash -c 'touch /app.jar'
 VOLUME /tmp
 EXPOSE 8000
-ENTRYPOINT ["java","-server","-Xmx500M","-Xms500M","-Duser.timezone=GMT+08", "-Djava.awt.headless=true","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar","--spring.profiles.active=${PROFILE}"]
+ENTRYPOINT ["java","-server","-Xmx500M","-Xms500M","-Duser.timezone=GMT+08", "-Djava.awt.headless=true","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar","--spring.profiles.active=pro"]
