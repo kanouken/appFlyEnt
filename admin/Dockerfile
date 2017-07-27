@@ -12,6 +12,6 @@ COPY target/*.jar  /app.jar
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 RUN bash -c 'touch /app.jar'
-VOLUME /tmp
+VOLUME /data
 EXPOSE 8000
 ENTRYPOINT ["/entrypoint.sh"]
